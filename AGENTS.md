@@ -56,14 +56,19 @@ server_dashboard/
 ## 4. Feature Set & Implementation Status
 
 ### Core Modules
-1.  **Dashboard:** Real-time metrics (CPU/RAM/Disk).
+1.  **Dashboard:** Real-time metrics (CPU/RAM/Swap/Disk).
     * *Impl:* HTMX polling (2s) + Chart.js (JSON fetch).
-2.  **Process Manager:**
+    * *Layout:* Cards showing % usage, color-coded (CPU=Blue, RAM=Green, Swap=Yellow, Disk=Red).
+2.  **Web Terminal:**
+    * *Impl:* Django View executing `subprocess.run(shell=True)`.
+    * *Features:* Persistent Current Working Directory (Session-based).
+    * *Security:* Superuser only.
+3.  **Process Management:**
     * *Impl:* `psutil` listing + `kill()` signal.
     * *Security:* Superuser required for destructive actions.
-3.  **Network Monitor:**
+4.  **Network Monitor:**
     * *Impl:* Interface enumeration + Connection table (Netstat-like).
-4.  **Server Inventory:**
+5.  **Server Inventory:**
     * *Impl:* Full CRUD using Class-Based Views (CBV) & ModelForms.
 
 ### Cross-Cutting Concerns

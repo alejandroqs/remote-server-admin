@@ -18,7 +18,8 @@ The system monitors critical resources (CPU, RAM, Disk), manages system processe
 
 ### ✨ Key Features
 
-* **📊 Real-Time Dashboard:** Metrics visualization via **HTMX** (polling) and historical charts with **Chart.js**.
+* **📊 Real-Time Dashboard:** Metrics visualization via **HTMX** (polling) and historical charts with **Chart.js**. Monitors CPU, RAM, Swap (Virtual Memory), and Disk Usage.
+* **💻 Web Terminal:** Fully functional web-based shell (Bash/CMD) for superusers with directory persistence (`cd` support).
 * **⚡ Process Management:** Interactive table to inspect and terminate (Kill) processes (protected for superusers).
 * **🌐 Network Monitor:** Inspection of active interfaces and connections (similar to `netstat`).
 * **📦 Inventory CRUD:** Complete server management system with validations.
