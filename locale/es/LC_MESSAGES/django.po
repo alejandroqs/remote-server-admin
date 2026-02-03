@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-03 18:37+0000\n"
+"POT-Creation-Date: 2026-02-03 21:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,11 +84,15 @@ msgstr "Panel de Red"
 msgid "Servers"
 msgstr "Servidores"
 
-#: .\monitor\templates\monitor\base.html:93
+#: .\monitor\templates\monitor\base.html:81
+msgid "Terminal"
+msgstr "Terminal"
+
+#: .\monitor\templates\monitor\base.html:99
 msgid "Logout"
 msgstr "Cerrar Sesión"
 
-#: .\monitor\templates\monitor\base.html:97
+#: .\monitor\templates\monitor\base.html:103
 msgid "Login"
 msgstr "Iniciar Sesión"
 
@@ -129,10 +133,18 @@ msgid "Memory Usage"
 msgstr "Uso de Memoria"
 
 #: .\monitor\templates\monitor\partials\metrics.html:26
+msgid "Virtual Memory"
+msgstr "Memoria Virtual"
+
+#: .\monitor\templates\monitor\partials\metrics.html:29
+msgid "Swap/Virtual"
+msgstr "Swap/Virtual"
+
+#: .\monitor\templates\monitor\partials\metrics.html:36
 msgid "Disk"
 msgstr "Disco"
 
-#: .\monitor\templates\monitor\partials\metrics.html:29
+#: .\monitor\templates\monitor\partials\metrics.html:39
 msgid "Disk Usage"
 msgstr "Uso de Disco"
 
@@ -266,6 +278,14 @@ msgstr "Inactivo"
 #: .\monitor\templates\monitor\servers\list.html:49
 msgid "No servers registered."
 msgstr "No hay servidores registrados."
+
+#: .\monitor\templates\monitor\terminal.html:7
+msgid "Web Terminal"
+msgstr "Terminal Web"
+
+#: .\monitor\templates\monitor\terminal.html:9
+msgid "Superuser Access"
+msgstr "Acceso de Superusuario"
 
 #: .\monitor\templates\registration\login.html:33
 #, fuzzy

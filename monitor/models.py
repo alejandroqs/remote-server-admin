@@ -22,9 +22,8 @@ class SystemMetric(models.Model):
     # Main disk usage in %
     disk_usage = models.FloatField(help_text="Uso de Disco principal en %")
     
-    # GPU is optional as not all servers have one
-    # GPU usage in %
-    gpu_usage = models.FloatField(null=True, blank=True, help_text="Uso de GPU en %")
+    # Virtual Memory (Swap) usage in %
+    swap_usage = models.FloatField(null=True, blank=True, help_text="Uso de Memoria Virtual (Swap) en %")
     
     timestamp = models.DateTimeField(auto_now_add=True)
 

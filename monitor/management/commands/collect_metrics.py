@@ -20,6 +20,10 @@ class Command(BaseCommand):
             defaults={'ip_address': '127.0.0.1', 'is_active': True}
         )
 
+        # Determine the root path for disk usage based on OS
+        import platform
+        root_path = 'C:\\' if platform.system() == 'Windows' else '/'
+
         while True:
             if not server.is_active:
                 logger.warning(f"Server {server.name} is inactive. Skipping cycle.")
@@ -29,13 +33,17 @@ class Command(BaseCommand):
             try:
                 cpu = psutil.cpu_percent(interval=1)
                 ram = psutil.virtual_memory().percent
-                disk = psutil.disk_usage('/').percent
-
+                swap = psutil.swap_memory().percent
+                
+                disk_usage_info = psutil.disk_usage(root_path)
+                disk = disk_usage_info.percent
+                
                 SystemMetric.objects.create(
                     server=server,
                     cpu_usage=cpu,
                     ram_usage=ram,
                     disk_usage=disk,
+                    swap_usage=swap,
                     timestamp=timezone.now()
                 )
                 

@@ -17,6 +17,10 @@ urlpatterns = [
     path('processes/', views.processes, name='processes'),
     path('processes/list/', views.processes_list, name='processes_list'),
     path('processes/kill/<int:pid>/', views.kill_process, name='kill_process'),
+    
+    # Terminal Routes
+    path('terminal/', views.terminal, name='terminal'),
+    path('terminal/execute/', views.terminal_execute, name='terminal_execute'),
 
     # ... API Routes ...
     # All API URLs will start with 'api/'

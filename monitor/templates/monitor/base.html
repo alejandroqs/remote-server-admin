@@ -75,6 +75,12 @@
                 <a href="{% url 'server_list' %}" class="{% if request.path and 'servers' in request.path %}active{% endif %}">
                     <i class="fa-solid fa-server me-2"></i> {% trans "Servers" %}
                 </a>
+                
+                {% if request.user.is_superuser %}
+                <a href="{% url 'terminal' %}" class="{% if request.resolver_match.url_name == 'terminal' %}active{% endif %}">
+                    <i class="fa-solid fa-terminal me-2"></i> {% trans "Terminal" %}
+                </a>
+                {% endif %}
             </nav>
 
             <div class="mt-auto p-3 border-top border-secondary">

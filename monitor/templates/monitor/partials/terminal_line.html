@@ -1,0 +1,13 @@
+<div class="terminal-line mb-2">
+    <div class="prompt mb-1">
+        <span class="text-success fw-bold">➜</span> 
+        <span class="text-info">{{ cwd }}</span>
+        <span class="text-light ms-2">$ {{ command }}</span>
+    </div>
+    {% if output %}
+    <pre class="mb-0 text-light opacity-75 ps-3" style="white-space: pre-wrap; word-break: break-all;">{{ output }}</pre>
+    {% endif %}
+    {% if new_cwd != cwd %}
+    <div class="text-muted fst-italic ps-3"><small>Changed directory to {{ new_cwd }}</small></div>
+    {% endif %}
+</div>

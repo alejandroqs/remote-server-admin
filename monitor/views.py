@@ -1,5 +1,8 @@
 from django.shortcuts import render
 import psutil
+import platform
+import subprocess
+import os
 from .models import SystemMetric
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -48,11 +51,18 @@ def dashboard(request):
 def system_metrics(request):
     cpu = psutil.cpu_percent(interval=None) # interval=None is vital to avoid blocking the response
     ram = psutil.virtual_memory().percent
-    disk = psutil.disk_usage('/').percent
+    
+    # Path logic
+    path = 'C:\\' if platform.system() == 'Windows' else '/'
+    disk_info = psutil.disk_usage(path)
+    disk = disk_info.percent
+    
+    swap = psutil.swap_memory().percent
     
     context = {
         'cpu_metric': cpu,
         'ram_metric': ram,
+        'swap_metric': swap,
         'disk_metric': disk,
     }
     # NOTE: We render a different partial template here
@@ -107,6 +117,70 @@ def kill_process(request, pid):
         return HttpResponse('<span class="text-danger">Access Denied.</span>')
     except Exception as e:
         return HttpResponse(f'<span class="text-danger">Error: {str(e)}</span>')
+
+@user_passes_test(lambda u: u.is_superuser)
+def terminal(request):
+    # Initialize Current Working Directory if not present
+    if 'term_cwd' not in request.session:
+        # Default to home directory or valid starting point
+        request.session['term_cwd'] = os.path.expanduser('~')
+    
+    return render(request, 'monitor/terminal.html', {
+        'page_title': 'Terminal',
+        'cwd': request.session['term_cwd']
+    })
+
+@user_passes_test(lambda u: u.is_superuser)
+@require_POST
+def terminal_execute(request):
+    command = request.POST.get('command', '').strip()
+    cwd = request.session.get('term_cwd', os.path.expanduser('~'))
+    
+    if not command:
+        return HttpResponse('')
+
+    output = ""
+    new_cwd = cwd
+    
+    # Handle 'cd' manually because subprocess runs in a subshell
+    if command.startswith('cd '):
+        try:
+            target_dir = command[3:].strip()
+            # Resolve relative paths
+            potential_path = os.path.abspath(os.path.join(cwd, target_dir))
+            
+            if os.path.isdir(potential_path):
+                new_cwd = potential_path
+                request.session['term_cwd'] = new_cwd
+                # We don't print output for success cd, just update prompt
+            else:
+                output = f"cd: the directory '{target_dir}' does not exist"
+        except Exception as e:
+            output = str(e)
+    else:
+        # Execute other commands
+        try:
+            # shell=True is dangerous but necessary for a terminal emulator. 
+            # We rely on superuser protection.
+            result = subprocess.run(
+                command, 
+                shell=True, 
+                cwd=cwd, 
+                stdout=subprocess.PIPE, 
+                stderr=subprocess.PIPE, 
+                text=True
+            )
+            output = result.stdout + result.stderr
+        except Exception as e:
+            output = str(e)
+
+    context = {
+        'command': command,
+        'output': output,
+        'cwd': cwd,      # Directory WHERE the command ran
+        'new_cwd': new_cwd # New directory FOR the next prompt
+    }
+    return render(request, 'monitor/partials/terminal_line.html', context)
 
 @login_required
 def network_dashboard(request):
