@@ -1,0 +1,46 @@
+{% load i18n %}
+
+{% for proc in processes %}
+<tr>
+    <td><span class="badge bg-secondary">{{ proc.pid }}</span></td>
+    <td class="fw-bold text-primary">{{ proc.name }}</td>
+    <td>{{ proc.username|default:"System" }}</td>
+    
+    <td>
+        {% if proc.status == 'running' %}
+            <span class="badge bg-success">{% trans "Running" %}</span>
+        {% elif proc.status == 'sleeping' %}
+            <span class="badge bg-info text-dark">{% trans "Sleeping" %}</span>
+        {% else %}
+            <span class="badge bg-secondary">{{ proc.status }}</span>
+        {% endif %}
+    </td>
+
+    <td style="width: 20%;">
+        <div class="d-flex align-items-center">
+            <span class="me-2">{{ proc.cpu_percent }}%</span>
+            <div class="progress flex-grow-1" style="height: 6px;">
+                <div class="progress-bar bg-danger" role="progressbar" 
+                     style="width: {{ proc.cpu_percent }}%"></div>
+            </div>
+        </div>
+    </td>
+
+    <td>{{ proc.memory_percent|floatformat:1 }}%</td>
+    
+    <td class="text-end">
+        <button class="btn btn-sm btn-outline-danger" 
+                title="Matar proceso"
+                hx-post="{% url 'kill_process' proc.pid %}"
+                hx-confirm="¿Estás SEGURO de que quieres terminar el proceso {{ proc.name }} (PID: {{ proc.pid }})?"
+                hx-target="closest td" 
+                hx-swap="innerHTML">
+            <i class="fa-solid fa-skull"></i>
+        </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="7" class="text-center text-muted">{% trans "Could not read processes." %}</td>
+</tr>
+{% endfor %}

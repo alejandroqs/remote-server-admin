@@ -1,0 +1,25 @@
+{% extends 'monitor/base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card shadow border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fa-solid fa-triangle-exclamation"></i> {% trans "Confirm Delete" %}</h5>
+            </div>
+            <div class="card-body text-center p-4">
+                <p class="fs-5">{% trans "Are you sure you want to delete the server" %} <strong>"{{ object.name }}"</strong>?</p>
+                <p class="text-muted small">{% trans "This action will also delete all its metric history." %}</p>
+                
+                <form method="post" class="mt-4">
+                    {% csrf_token %}
+                    <a href="{% url 'server_list' %}" class="btn btn-secondary me-2">{% trans "Cancel" %}</a>
+                    <button type="submit" class="btn btn-danger">{% trans "Yes, delete!" %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

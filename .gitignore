@@ -1,0 +1,18 @@
+# .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+
+# Django
+db.sqlite3
+*.log
+local_settings.py
+staticfiles/
+
+# Variables de entorno (SECRETOS)
+.env
+
+# VS Code
+.vscode/

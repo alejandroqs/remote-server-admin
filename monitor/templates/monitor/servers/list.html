@@ -1,0 +1,56 @@
+{% extends 'monitor/base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{% trans "Servers" %}</h2>
+        <a href="{% url 'server_create' %}" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> {% trans "New Server" %}
+        </a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>{% trans "Name" %}</th>
+                        <th>IP</th>
+                        <th>{% trans "Operating System" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th class="text-end">{% trans "Actions" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for server in servers %}
+                    <tr>
+                        <td class="fw-bold">{{ server.name }}</td>
+                        <td class="font-monospace">{{ server.ip_address }}</td>
+                        <td><i class="fab fa-linux text-muted me-1"></i> {{ server.os_info|default:"-" }}</td>
+                        <td>
+                            {% if server.is_active %}
+                                <span class="badge bg-success">{% trans "Active" %}</span>
+                            {% else %}
+                                <span class="badge bg-danger">{% trans "Inactive" %}</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            <a href="{% url 'server_edit' server.pk %}" class="btn btn-sm btn-outline-secondary">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                            <a href="{% url 'server_delete' server.pk %}" class="btn btn-sm btn-outline-danger">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="text-center">{% trans "No servers registered." %}</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

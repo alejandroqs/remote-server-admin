@@ -1,0 +1,32 @@
+{% extends 'monitor/base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{% trans "Network Panel" %}</h2>
+        
+        <button class="btn btn-outline-primary" 
+                hx-get="{% url 'network_details' %}" 
+                hx-target="#net-container"
+                hx-swap="innerHTML">
+            <i class="fa-solid fa-rotate"></i> {% trans "Update Now" %}
+        </button>
+    </div>
+
+    <div id="net-container"
+         hx-get="{% url 'network_details' %}"
+         hx-trigger="load, every 5s"
+         hx-target="this"
+         hx-swap="innerHTML">
+         
+         <div class="text-center p-5">
+            <div class="spinner-border text-info" role="status">
+                <span class="visually-hidden"> {% trans "Updating network" %}</span>
+            </div>
+            <p class="mt-2 text-muted">{% trans "Analyzing interfaces and ports..." %}</p>
+         </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% load i18n %}
+
+<h4 class="mb-3"><i class="fa-solid fa-network-wired"></i> Interfaces</h4>
+<div class="row mb-4">
+    {% for name, addrs in interfaces.items %}
+    <div class="col-md-4">
+        <div class="card shadow-sm border-start border-4 border-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title text-uppercase text-muted small">{{ name }}</h5>
+                {% for addr in addrs %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fs-5 fw-bold">{{ addr.ip }}</span>
+                        <span class="badge bg-light text-dark border">{{ addr.type }}</span>
+                    </div>
+                    <small class="text-muted">{% trans "Mask" %}: {{ addr.netmask }}</small>
+                {% empty %}
+                    <span class="text-muted">{% trans "No IPv4 assigned" %}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<h4 class="mb-3"><i class="fa-solid fa-plug"></i> {% trans "Active Connections (Top 50)" %}</h4>
+<div class="card shadow">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>{% trans "Proto" %}</th>
+                    <th>{% trans "Local Address" %}</th>
+                    <th>{% trans "Remote Address" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    <th>{% trans "PID" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for conn in connections %}
+                <tr>
+                    <td>
+                        <span class="badge bg-secondary">{{ conn.type }}</span>
+                        <small class="text-muted">{{ conn.family }}</small>
+                    </td>
+                    <td class="font-monospace">{{ conn.laddr }}</td>
+                    <td class="font-monospace">{{ conn.raddr }}</td>
+                    <td>
+                        <span class="badge bg-{{ conn.status_color }}">{{ conn.status }}</span>
+                    </td>
+                    <td>
+                        {% if conn.pid %}
+                            <a href="#" class="text-decoration-none text-dark fw-bold">
+                                <i class="fa-solid fa-gear text-muted"></i> {{ conn.pid }}
+                            </a>
+                        {% else %}
+                            <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5">{% trans "No active connections visible." %}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

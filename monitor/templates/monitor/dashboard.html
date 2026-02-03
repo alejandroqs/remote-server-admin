@@ -1,0 +1,124 @@
+{% extends 'monitor/base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{% trans "System Status" %}</h2>
+        <span class="badge bg-secondary">{% trans "Real-time update" %} <i class="fa-solid fa-bolt text-warning"></i></span>
+    </div>
+
+    <div id="metrics-container"
+         hx-get="{% url 'system_metrics' %}"
+         hx-trigger="load, every 2s"
+         hx-target="this"
+         hx-swap="innerHTML">
+         <div class="text-center p-5">
+            <div class="spinner-border text-primary" role="status"></div>
+         </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-transparent border-bottom d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">{% trans "Performance History (CPU vs RAM)" %}</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="serverChart" height="100" style="max-height: 400px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ chart_labels|json_script:"json-labels" }}
+{{ chart_data_cpu|json_script:"json-cpu" }}
+{{ chart_data_ram|json_script:"json-ram" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // --- 1. INITIAL CONFIGURATION ---
+        const initialLabels = JSON.parse(document.getElementById('json-labels').textContent);
+        const initialCpu = JSON.parse(document.getElementById('json-cpu').textContent);
+        const initialRam = JSON.parse(document.getElementById('json-ram').textContent);
+
+        const ctx = document.getElementById('serverChart').getContext('2d');
+        
+        // Create the chart
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: initialLabels,
+                datasets: [
+                    {
+                        label: 'CPU %',
+                        data: initialCpu,
+                        borderColor: 'rgba(54, 162, 235, 1)', // Blue
+                        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4, // Smooth curvature
+                        pointRadius: 0 // No points to make it look like a heart monitor
+                    },
+                    {
+                        label: 'RAM %',
+                        data: initialRam,
+                        borderColor: 'rgba(75, 192, 192, 1)', // Teal Green
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                scales: {
+                    y: { 
+                        beginAtZero: true, 
+                        max: 100,
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' } // Subtle grid in dark mode
+                    },
+                    x: { 
+                        ticks: { display: false }, 
+                        grid: { display: false } 
+                    }
+                },
+                animation: false // Important for performance
+            }
+        });
+
+        // --- 2. UPDATE LOGIC ---
+        function updateChart() {
+            // Fetch from the URL defined in urls.py
+            fetch("{% url 'chart_data' %}")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error de red al obtener datos de gráfica');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Update Chart.js data arrays
+                    myChart.data.labels = data.labels;
+                    myChart.data.datasets[0].data = data.cpu;
+                    myChart.data.datasets[1].data = data.ram;
+                    
+                    // Render changes without sharp animation ('none')
+                    myChart.update('none');
+                })
+                .catch(error => console.error('Error Chart:', error));
+        }
+
+        // Run every 2 seconds (2000ms) for smooth movement
+        setInterval(updateChart, 2000);
+    });
+</script>
+{% endblock %}

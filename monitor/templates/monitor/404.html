@@ -1,0 +1,22 @@
+{% extends 'monitor/base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 70vh;">
+    <div class="text-center">
+        <h1 class="display-1 fw-bold text-muted">404</h1>
+        <div class="mb-4 text-primary">
+            <i class="fa-solid fa-ghost fa-5x"></i>
+        </div>
+        <h2 class="mb-3">{% trans "Oops! Page not found." %}</h2>
+        <p class="text-muted mb-4">
+            {% trans "It seems the URL you are looking for does not exist or has been moved." %}<br>
+            {% trans "Maybe a zombie process ate it..." %} 🧟‍♂️
+        </p>
+        <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg">
+            <i class="fa-solid fa-house me-2"></i> {% trans "Go to Dashboard" %}
+        </a>
+    </div>
+</div>
+{% endblock %}

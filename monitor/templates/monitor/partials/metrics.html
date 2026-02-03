@@ -1,0 +1,43 @@
+{% load i18n %}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3 shadow">
+            <div class="card-header">CPU</div>
+            <div class="card-body">
+                <h1 class="card-title">{{ cpu_metric }}%</h1>
+                <p class="card-text"><i class="fa-solid fa-microchip"></i> {% trans "Processor Usage" %}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3 shadow">
+            <div class="card-header">RAM</div>
+            <div class="card-body">
+                <h1 class="card-title">{{ ram_metric }}%</h1>
+                <p class="card-text"><i class="fa-solid fa-memory"></i> {% trans "Memory Usage" %}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3 shadow">
+            <div class="card-header">{% trans "Disk" %}</div>
+            <div class="card-body">
+                <h1 class="card-title">{{ disk_metric }}%</h1>
+                <p class="card-text"><i class="fa-solid fa-hard-drive"></i> {% trans "Disk Usage" %}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3 shadow">
+            <div class="card-header">GPU</div>
+            <div class="card-body">
+                <h1 class="card-title">--</h1>
+                <p class="card-text"><i class="fa-solid fa-tv"></i> N/A</p>
+            </div>
+        </div>
+    </div>
+</div>
