@@ -287,6 +287,14 @@ msgstr "Terminal Web"
 msgid "Superuser Access"
 msgstr "Acceso de Superusuario"
 
+#: .\monitor\templates\monitor\partials\process_table.html:36
+msgid "Blocked in Demo Mode"
+msgstr "Bloqueado en Modo Demo"
+
+#: .\monitor\templates\monitor\partials\process_table.html:38
+msgid "🔒 Feature disabled in Demo Mode."
+msgstr "🔒 Función deshabilitada en Modo Demo."
+
 #: .\monitor\templates\registration\login.html:33
 #, fuzzy
 #| msgid "Network Panel"

@@ -24,11 +24,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # If the key is not found in .env, use a default one (security fallback)
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-fallback-key')
 
+# DEMO_MODE: Simulates metrics and protects sensitive actions
+DEMO_MODE = os.environ.get('DEMO_MODE') == 'True'
+
 # DEBUG will be True only if it is set to 'True' in .env
-DEBUG = os.environ.get('DEBUG') == 'True'
+# In DEMO_MODE, we force DEBUG=False for security
+DEBUG = os.environ.get('DEBUG') == 'True' and not DEMO_MODE
 
 # In production, we need to define who can access the site
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+if DEMO_MODE:
+    ALLOWED_HOSTS = ['*']
+else:
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition

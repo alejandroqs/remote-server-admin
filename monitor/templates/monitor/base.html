@@ -148,6 +148,11 @@
         document.body.addEventListener('htmx:configRequest', (event) => {
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token|default:"" }}';
         });
+        
+        // 2. Alert System (HTMX Triggers)
+        document.body.addEventListener('showAlert', (event) => {
+            alert(event.detail.value);
+        });
 
         // 2. Theme Button Logic
         document.addEventListener('DOMContentLoaded', () => {
