@@ -16,3 +16,12 @@ staticfiles/
 
 # VS Code
 .vscode/
+
+# Agents
+.gemini
+.openai
+.github
+.clinerules
+.cursorrules
+.windsurfrules
+GEMINI.md

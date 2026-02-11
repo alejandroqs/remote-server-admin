@@ -99,3 +99,14 @@ When contributing to this codebase, adhere to the following:
 * [ ] **Authentication:** 2FA implementation.
 * [ ] **Alerting:** Email/Telegram hooks when CPU > 90%.
 * [ ] **Architecture Upgrade:** Migrate background thread to Celery/Redis (only if scale requires).
+
+## 7. Specialized Skills & Guidelines
+
+Refer to these dedicated skill files for in-depth guidance on specific topics:
+
+*   **Django Backend Expert:** `skills/django-expert/SKILL.md`
+    *   *Usage:* Advanced ORM queries, DRF architecture, Authentication, Security, and Production-readiness.
+*   **Python Design Patterns:** `skills/python-design-patterns/SKILL.md`
+    *   *Usage:* Refactoring strategies, SOLID principles, and deciding when to use abstraction vs. simplicity.
+*   **Performance Optimization:** `skills/python-performance-optimizations/SKILL.md`
+    *   *Usage:* Profiling (cProfile), Memory leak detection, N+1 query resolution, and algorithm optimization.
