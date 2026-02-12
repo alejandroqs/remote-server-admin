@@ -18,14 +18,15 @@ The system monitors critical resources (CPU, RAM, Disk), manages system processe
 
 ### ✨ Key Features
 
-* **📊 Real-Time Dashboard:** Metrics visualization via **HTMX** (polling) and historical charts with **Chart.js**. Monitors CPU, RAM, Swap (Virtual Memory), and Disk Usage.
-* **💻 Web Terminal:** Fully functional web-based shell (Bash/CMD) for superusers with directory persistence (`cd` support).
+* **📊 Real-Time Dashboard:** Metrics visualization via **HTMX** (polling) and historical charts with **Chart.js**.
+* **🎭 Demo Mode:** Safe simulation mode for public portfolios (Paas deployments). Simulates traffic/load and blocks internal system commands.
+* **💻 Web Terminal:** Fully functional web-based shell (Bash/CMD) for superusers with directory persistence.
 * **⚡ Process Management:** Interactive table to inspect and terminate (Kill) processes (protected for superusers).
 * **🌐 Network Monitor:** Inspection of active interfaces and connections (similar to `netstat`).
 * **📦 Inventory CRUD:** Complete server management system with validations.
-* **🔌 RESTful API:** JSON endpoints exposed via **Django Rest Framework** (paginated and secure).
-* **🎨 Modern UI:** Responsive design with automatic **Dark Mode** (system sync) and **i18n** (Spanish/English).
-* **🚀 Hybrid Deployment:** Smart startup script that detects the OS (Waitress on Windows / Gunicorn on Linux).
+* **🔌 RESTful API:** JSON endpoints exposed via **Django Rest Framework**.
+* **🎨 Modern UI:** Responsive design with automatic **Dark Mode** (system sync).
+* **🚀 Hybrid Deployment:** Smart startup script for Windows (Waitress) and Linux (Gunicorn).
 
 ---
 
@@ -53,7 +54,7 @@ The project follows an **MVT (Model-View-Template)** architecture enhanced with 
 ### Infrastructure / DevOps
 * **Waitress/Gunicorn:** Production WSGI servers depending on the environment.
 * **WhiteNoise:** Efficient static file management.
-*   **Logging:** Rotating log system for auditing.
+* **Logging:** Rotating log system for auditing.
 
 ---
 
@@ -61,7 +62,6 @@ The project follows an **MVT (Model-View-Template)** architecture enhanced with 
 
 ### Prerequisites
 * Python 3.10 or higher.
-* (Optional) Gettext if you wish to compile new translations on Windows.
 
 ### 1. Clone the repository
 ```bash
@@ -88,6 +88,8 @@ Create a `.env` file in the root directory:
 ```ini
 DEBUG=True
 SECRET_KEY=your_local_secret_key
+# Set to True to enable simulation mode (safe for public demos)
+# DEMO_MODE=True
 ```
 
 ### 5. Start the System
@@ -98,9 +100,40 @@ python start_server.py
 Access at: `http://127.0.0.1:8000`
 
 ---
+
+## 🤖 Contributing with AI Agents
+
+This repository is designed to be **AI-First**. It includes a "Single Source of Truth" (SSOT) for context and specialized skills.
+
+### 1. Setup Agent Context
+Run the setup script to link your AI assistant (Cursor, Cline, Windsurf, Copilot, etc.) to the project's central context.
+
+**Windows (PowerShell):**
+```powershell
+.\Setup-AgentLinks.ps1
+```
+
+**Linux/Mac (Bash):**
+```bash
+chmod +x setup-agent-links.sh
+./setup-agent-links.sh
+```
+
+### 2. Specialized Skills
+The `skills/` directory contains specialized instructions for AI agents:
+*   **Django Expert:** Best practices for ORM and DRF.
+*   **Design Patterns:** Architectural guidance (SOLID, KISS).
+*   **Performance:** Optimization strategies for Python.
+
+Refer to `AGENTS.md` for full development guidelines.
+
+---
+
 ## 📂 Project Structure
 ```text
 server_dashboard/
+├── AGENTS.md           # SSOT for AI Context
+├── skills/             # Specialized AI Skills
 ├── core/               # Main configuration (Settings, Auth)
 ├── monitor/            # Main application
 │   ├── api.py          # DRF ViewSets
@@ -110,13 +143,13 @@ server_dashboard/
 ├── locale/             # Translation files (ES/EN)
 └── start_server.py     # Multi-threaded Launcher
 ```
+
 ---
-## 🤖 Context for AI Agents
-This repository includes an `AGENTS.md` file in the root. This document contains the full architectural specification, style constraints, and development guidelines, optimized for LLMs (Large Language Models) to facilitate automated contributions or code analysis.
 
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
 
 ---
+
 Developed with ❤️ by Alejandro Quesada
